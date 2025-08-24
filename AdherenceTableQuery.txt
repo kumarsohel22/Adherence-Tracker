@@ -1,0 +1,86 @@
+CREATE TABLE cred (
+    emp_id VARCHAR(20) ,     
+    name NVARCHAR(100) NOT NULL,
+    password NVARCHAR(255) NOT NULL,   
+    role NVARCHAR(50) NOT NULL,
+    email NVARCHAR(100)  NOT NULL,
+    process NVARCHAR(100) NOT NULL
+);
+
+CREATE TABLE Current_Activity (
+    emp_id VARCHAR(20) NOT NULL,                
+    activity_type NVARCHAR(50) NOT NULL,         
+    activity_name NVARCHAR(100) NOT NULL,        
+    start_time DATETIME NOT NULL ,
+);
+
+
+CREATE TABLE logs (
+    id INT IDENTITY(1,1) ,
+    emp_id VARCHAR(20) NOT NULL ,
+    activity_type NVARCHAR(50) NOT NULL,
+    description NVARCHAR(MAX),
+    timestamp DATETIME NULL
+);
+
+
+CREATE TABLE task (
+    id INT IDENTITY(1,1),
+    emp_id VARCHAR(20) NOT NULL ,
+    activity_name NVARCHAR(100) NOT NULL,
+    start_time DATETIME NOT NULL,
+    stop_time DATETIME NULL,            
+    total_duration TIME(0) NULL 
+);
+
+
+CREATE TABLE breaks (
+    id INT IDENTITY(1,1),
+    emp_id VARCHAR(20) NOT NULL ,
+    activity_name NVARCHAR(100) NOT NULL,
+    start_time DATETIME NOT NULL,
+    stop_time DATETIME NULL,            
+    total_duration TIME(0) NULL 
+);
+
+
+CREATE TABLE session_time (
+    id INT IDENTITY(1,1),
+    emp_id VARCHAR(20) NOT NULL ,
+    activity_name NVARCHAR(100) NOT NULL,
+    start_time DATETIME NOT NULL,
+    stop_time DATETIME NULL,            
+    total_duration TIME(0) NULL 
+);
+
+
+CREATE TABLE Process_Tasks (
+    ProcessName NVARCHAR(100) NOT NULL,
+    TaskName NVARCHAR(100) NOT NULL,
+);
+
+
+CREATE TABLE logins (
+    id INT IDENTITY(1,1),
+    emp_id VARCHAR(20) ,
+    login_time TIME NOT NULL,
+    logout_time TIME NULL,
+    log_date DATE NULL,
+    duration TIME(0) NULL
+);
+
+
+------------------------------------------------------------------------------
+
+INSERT INTO Process_Tasks (ProcessName, TaskName)
+VALUES
+    ('Customer Support', 'Inbound Call Handling'),
+    ('Customer Support', 'Outbound Call Handling'),
+    ('Customer Support', 'Email Support'),
+    ('Customer Support', 'Chat Support'),
+    ('Human Resources', 'Employee Onboarding'),
+    ('Human Resources', 'Background Verification'),
+    ('Human Resources', 'Exit Formalities'),
+    ('Sales & Marketing', 'Lead Generation'),
+    ('Sales & Marketing', 'Cold Calling'),
+    ('Sales & Marketing', 'Market Research');

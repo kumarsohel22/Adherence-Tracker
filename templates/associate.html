@@ -1,0 +1,564 @@
+<!DOCTYPE html> <!-- Declares the document type -->
+<html lang="en"> <!-- Begins HTML document with English as the language -->
+<head>
+    <meta charset="UTF-8"> <!-- Sets character encoding to UTF-8 -->
+    <title>Associate Dashboard</title> <!-- Title shown in browser tab -->
+
+    <style>
+        /* General page styling */
+        body {
+            font-family: 'Poppins', Arial, sans-serif; /* Font style */
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), /* Overlay for readability */
+                url('/static/fbaugnw.jpg') no-repeat center center fixed; /* Background image */
+            background-size: cover; /* Make background cover entire area */
+            color: #ecf0f1; /* Text color */
+            margin: 0; /* Remove default margins */
+            padding: 0; /* Remove default padding */
+        }
+
+        .header {
+            background: linear-gradient(90deg, #283c86, #45a247); /* Gradient header background */
+            color: #ffffff; /* Text color */
+            padding: 25px; /* Space inside the box */
+            text-align: center; /* Centered text */
+            font-size: 30px; /* Font size */
+            font-weight: bold; /* Bold text */
+            letter-spacing: 1px; /* Space between letters */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); /* Shadow effect */
+        }
+
+        .time-info {
+            margin: 15px auto; /* Top and bottom margin */
+            text-align: center; /* Center text */
+            font-size: 18px; /* Font size */
+        }
+
+        .container {
+            display: grid; /* Grid layout */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive columns */
+            gap: 25px; /* Space between grid items */
+            padding: 30px; /* Padding inside container */
+        }
+
+        .section {
+            background: linear-gradient(135deg, #034956, #075f2e); /* Section background */
+            padding: 25px;
+            border-radius: 20px; /* Rounded corners */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5); /* Shadow effect */
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s; /* Hover transition */
+        }
+
+        .section:hover {
+            transform: translateY(-5px); /* Move upward slightly on hover */
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6); /* Stronger shadow */
+        }
+
+        .section label {
+            font-size: 20px;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        select {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(248, 247, 247, 0.92); /* Semi-transparent background */
+            color: #000700;
+            font-size: 16px;
+        }
+
+        .button-group {
+            margin-top: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(90deg, #16a085, #1abc9c);
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .btn:hover {
+            background: linear-gradient(90deg, #1abc9c, #16a085); /* Reverse gradient on hover */
+            transform: scale(1.05); /* Slight zoom effect */
+        }
+
+        .btn:disabled {
+            background: #7f8c8d; /* Greyed-out for disabled state */
+            cursor: not-allowed;
+        }
+
+        .active {
+            background: linear-gradient(90deg, #2ecc71, #27ae60) !important;
+            color: #ffffff;
+        }
+
+        #currentActivity {
+            margin-top: 20px;
+            font-size: 24px;
+            color: #2ecc71;
+            text-align: center;
+        }
+
+        /* Detailed Summary Card Styling */
+        .detailed-summary-card {
+            background: linear-gradient(135deg, #034956, #075f2e);
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 25px;
+            max-width: 1100px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6);
+            color: #ffffff;
+            text-align: center;
+        }
+
+        .detailed-summary-card h2 {
+            font-size: 32px;
+            margin-bottom: 25px;
+            text-shadow: 1px 1px 2px #000;
+        }
+
+        .detailed-summary-card h3 {
+            margin-top: 20px;
+            font-size: 24px;
+            text-decoration: underline;
+        }
+
+        .detailed-summary-card ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 10px;
+        }
+
+        .detailed-summary-card ul li {
+            background: rgba(255, 255, 255, 0.15);
+            margin: 8px 0;
+            padding: 10px;
+            border-radius: 12px;
+            font-size: 18px;
+        }
+
+        /* Total Summary Styling */
+        .total-summary {
+            background: linear-gradient(135deg, #034956, #075f2e);
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 25px;
+            max-width: 900px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            color: #ffffff;
+            text-align: center;
+        }
+
+        .total-summary h3 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .summary-values {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .summary-item {
+            margin: 10px;
+        }
+
+        .summary-item h4 {
+            margin-bottom: 8px;
+            font-size: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .summary-item p {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        /* Footer Styling */
+        footer {
+            background: linear-gradient(90deg, #2c3e50, #4ca1af);
+            color: #ecf0f1;
+            text-align: center;
+            padding: 12px 0;
+            font-size: 14px;
+            margin-top: 50px;
+        }
+
+        footer a {
+            color: #1abc9c;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header with welcome message -->
+    <div class="header">
+        Welcome, {{ emp_id }} <!-- Dynamic employee ID -->
+    </div>
+
+    <!-- Login time and duration info -->
+    <div class="time-info">
+        <p>
+            <strong>Login Time:</strong> <span id="loginTime">{{ login_time }}</span> |
+            <strong>Total Duration:</strong> <span id="duration">00:00:00</span>
+        </p>
+    </div>
+
+    <!-- Main activity container (Task, Break, Session) -->
+    <div class="container">
+        <!-- Task Section -->
+        <div class="section">
+            <label>Task</label>
+            <select id="taskSelect">
+                {% for task in tasks %}
+                    <option>{{ task }}</option>
+                {% endfor %}
+            </select>
+            <div class="button-group">
+                <button class="btn" id="taskStart" onclick="startActivity('task', 'Task')">Start Task</button>
+                <button class="btn" id="taskStop" onclick="stopActivity('task')" disabled>Stop Task</button>
+            </div>
+        </div>
+
+        <!-- Break Section -->
+        <div class="section">
+            <label>Break</label>
+            <select id="breakSelect">
+                <option>Break 1</option>
+                <option>Lunch Break</option>
+                <option>Break 2</option>
+                <option>RR</option>
+            </select>
+            <div class="button-group">
+                <button class="btn" id="breakStart" onclick="startActivity('break', 'Break')">Start Break</button>
+                <button class="btn" id="breakStop" onclick="stopActivity('break')" disabled>Stop Break</button>
+            </div>
+        </div>
+
+        <!-- Session Section -->
+        <div class="section">
+            <label>Session</label>
+            <select id="sessionSelect">
+                <option>Team Huddle</option>
+                <option>Training</option>
+                <option>Internal Meeting</option>
+                <option>External Meeting</option>
+                <option>Waiting For Work</option>
+                <option>New Hire Training</option>
+                <option>On-Job-Training</option>
+                <option>Downtime</option>
+            </select>
+            <div class="button-group">
+                <button class="btn" id="sessionStart" onclick="startActivity('session', 'Session')">Start Session</button>
+                <button class="btn" id="sessionStop" onclick="stopActivity('session')" disabled>Stop Session</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Display current active activity -->
+    <h2 id="currentActivity"></h2>
+
+    <!-- Detailed summary for each activity -->
+    <div class="detailed-summary-card">
+        <h2>Detailed Time Summary</h2>
+
+        <div id="taskSummary">
+            <h3>Task Time</h3>
+            <ul id="taskList"></ul> <!-- Dynamic list for task records -->
+        </div>
+
+        <div id="breakSummary">
+            <h3>Break Time</h3>
+            <ul id="breakList"></ul> <!-- Dynamic list for break records -->
+        </div>
+
+        <div id="sessionSummary">
+            <h3>Session Time</h3>
+            <ul id="sessionList"></ul> <!-- Dynamic list for session records -->
+        </div>
+
+        <!-- Totals for each activity -->
+        <h3 id="taskTotal">Task Total: 00:00:00</h3>
+        <h3 id="breakTotal">Break Total: 00:00:00</h3>
+        <h3 id="sessionTotal">Session Total: 00:00:00</h3>
+        <h2 id="grandTotal">Grand Total: 00:00:00</h2>
+    </div>
+
+    <!-- Today's Time Summary -->
+    <!-- Today's Time Summary -->
+        <div class="total-summary">
+            <h3>Today's Time Summary</h3>
+            <div class="summary-values">
+                <div class="summary-item">
+                    <h4>Task</h4>
+                    <p id="bifurcatedTask">00:00:00</p>
+                </div>
+                <div class="summary-item">
+                    <h4>Break</h4>
+                    <p id="bifurcatedBreak">00:00:00</p>
+                </div>
+                <div class="summary-item">
+                    <h4>Session</h4>
+                    <p id="bifurcatedSession">00:00:00</p>
+                </div>
+                <div class="summary-item">
+                    <h4>Total</h4>
+                    <p id="cumulativeTotal">00:00:00</p>
+                </div>
+            </div>
+            <br>
+            <form action="/logout" method="POST">
+                <button class="btn" type="submit">Logout</button>
+            </form>
+        </div>
+
+
+    <!-- Optional Footer -->
+
+    <footer>
+        <p>&copy; Made with ❤️ by Shriya Thakur & Support by Team at Augtech Nextwealth IT</p>
+    </footer>
+
+<script>
+    // Initialize variables to track start time, activity type, and category
+    let startTime = null;
+    let activeType = null;
+    let activeCategory = null;
+    const empId = "{{ emp_id }}";
+
+    // Object to store timers for each category under task, break, and session
+    let timers = {
+        task: {},
+        break: {},
+        session: {}
+    };
+
+    // Parse login time from template, removing milliseconds part
+    const loginTimeStr = "{{ login_time }}".split('.')[0]; // removes .772261 part
+    const loginTime = new Date(loginTimeStr.replace(' ', 'T')); // Convert to ISO date format
+
+    // Function to update the login duration on the screen every second
+    function updateDuration() {
+        const now = new Date();
+        const diff = Math.floor((now - loginTime) / 1000); // Total duration in seconds
+
+        const hrs = Math.floor(diff / 3600);
+        const mins = Math.floor((diff % 3600) / 60);
+        const secs = diff % 60;
+
+        // Display the formatted duration
+        document.getElementById('duration').textContent =
+            `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    // Call updateDuration every second
+    setInterval(updateDuration, 1000);
+    updateDuration(); // Initial call
+
+    // Function to start an activity (task, break, session)
+    function startActivity(type, label) {
+        // Disable all start buttons
+        document.querySelectorAll('.btn').forEach(btn => {
+            if (btn.id.includes('Start')) {
+                btn.disabled = true;
+            }
+        });
+
+        // Enable the stop button for the current type
+        document.getElementById(`${type}Stop`).disabled = false;
+
+        // Highlight the current activity button
+        document.querySelectorAll('.btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById(`${type}Start`).classList.add('active');
+
+        activeType = type;
+
+        // Get selected category label (e.g., Development, Call, etc.)
+        const selected = document.getElementById(`${type}Select`);
+        activeCategory = selected.options[selected.selectedIndex].text;
+
+        // Initialize timer if not already tracked
+        if (!timers[type][activeCategory]) {
+            timers[type][activeCategory] = 0;
+        }
+
+        // Start the timer
+        startTime = new Date();
+
+        // Send activity start info to the backend
+        fetch('/start', {
+            method: 'POST',
+            body: new URLSearchParams({ type: type, label: activeCategory }),
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+        });
+    }
+
+    // Function to stop an activity
+    function stopActivity(type) {
+        // Calculate elapsed time and add to timer
+        if (startTime) {
+            const duration = new Date() - startTime;
+            timers[activeType][activeCategory] += duration;
+        }
+
+        // Reset activity tracking variables
+        startTime = null;
+        activeType = null;
+        activeCategory = null;
+
+        // Enable all start buttons
+        document.querySelectorAll('.btn').forEach(btn => {
+            if (btn.id.includes('Start')) {
+                btn.disabled = false;
+            }
+        });
+
+        // Disable the stop button and remove highlights
+        document.getElementById(`${type}Stop`).disabled = true;
+        document.querySelectorAll('.btn').forEach(btn => btn.classList.remove('active'));
+
+        // Notify the backend that activity stopped
+        fetch('/stop', {
+            method: 'POST',
+            body: new URLSearchParams({ type: type }),
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+        });
+    }
+
+    // Format milliseconds into HH:MM:SS
+    function formatTime(ms) {
+        const totalSeconds = Math.floor(ms / 1000);
+        const hours = Math.floor(totalSeconds / 3600).toString().padStart(2, '0');
+        const minutes = Math.floor((totalSeconds % 3600) / 60).toString().padStart(2, '0');
+        const seconds = (totalSeconds % 60).toString().padStart(2, '0');
+        return `${hours}:${minutes}:${seconds}`;
+    }
+
+    // Function to update the summary of activities and their durations
+    function updateSummary() {
+        let currentActivityText = '';
+        let grandTotalMs = 0;
+
+        // Loop through task, break, and session types
+        ['task', 'break', 'session'].forEach(type => {
+            const listElement = document.getElementById(`${type}List`);
+            listElement.innerHTML = ''; // Clear list before updating
+
+            let typeTotalMs = 0;
+
+            // Loop through categories under each type
+            for (const [category, ms] of Object.entries(timers[type])) {
+                let currentMs = ms;
+
+                // Add current running duration if this is the active activity
+                if (type === activeType && category === activeCategory && startTime) {
+                    currentMs += (new Date() - startTime);
+                }
+
+                // Add each activity to list
+                const li = document.createElement('li');
+                li.textContent = `${category}: ${formatTime(currentMs)}`;
+                listElement.appendChild(li);
+
+                typeTotalMs += currentMs;
+            }
+
+            grandTotalMs += typeTotalMs;
+
+            // Update total time for this type
+            document.getElementById(`${type}Total`).innerText =
+                `${type.charAt(0).toUpperCase() + type.slice(1)} Total: ${formatTime(typeTotalMs)}`;
+        });
+
+        // Update grand total and current activity duration
+        document.getElementById('grandTotal').innerText = `Grand Total: ${formatTime(grandTotalMs)}`;
+
+        if (activeCategory && startTime) {
+            const liveDuration = new Date() - startTime;
+            document.getElementById('currentActivity').innerText =
+                `Current Activity: ${activeCategory} [${formatTime(liveDuration)}]`;
+        } else {
+            document.getElementById('currentActivity').innerText = '';
+        }
+    }
+
+    // Call updateSummary every second to keep data live
+    setInterval(updateSummary, 1000);
+
+    // Another formatter just for bifurcated summary card
+    function formatMilliseconds(ms) {
+        const totalSecs = Math.floor(ms / 1000);
+        const hrs = Math.floor(totalSecs / 3600);
+        const mins = Math.floor((totalSecs % 3600) / 60);
+        const secs = totalSecs % 60;
+        return `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    // Function to update the bifurcated summary card (tasks, breaks, sessions)
+    function updateSummaryCard() {
+        let taskMs = 0, breakMs = 0, sessionMs = 0;
+
+        // Sum up durations by type
+        Object.values(timers.task).forEach(ms => taskMs += ms);
+        Object.values(timers.break).forEach(ms => breakMs += ms);
+        Object.values(timers.session).forEach(ms => sessionMs += ms);
+
+        // Update DOM with the formatted values
+        document.getElementById('bifurcatedTask').textContent = formatMilliseconds(taskMs);
+        document.getElementById('bifurcatedBreak').textContent = formatMilliseconds(breakMs);
+        document.getElementById('bifurcatedSession').textContent = formatMilliseconds(sessionMs);
+
+        // Update total
+        const totalMs = taskMs + breakMs + sessionMs;
+        document.getElementById('cumulativeTotal').textContent = formatMilliseconds(totalMs);
+    }
+    window.addEventListener("beforeunload", function (e) {
+        console.log("Sending session end for emp_id:", empId); 
+        navigator.sendBeacon('/stop-activity-on-exit', JSON.stringify({
+            emp_id: empId,
+            time: new Date().toISOString()
+        }));
+    });
+
+    // Call updateSummaryCard every second
+    setInterval(updateSummaryCard, 1000);
+
+    // (These fetch calls seem redundant here and will likely error if executed immediately)
+    fetch('/start', {
+        method: 'POST',
+        body: new URLSearchParams({ type: type, label: activeCategory }),
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+    });
+
+    fetch('/stop', {
+        method: 'POST',
+        body: new URLSearchParams({ type: type }),
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+    });
+
+
+</script>
+
+</body>
+</html>
