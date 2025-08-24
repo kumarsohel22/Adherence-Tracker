@@ -1,4 +1,5 @@
 import pyodbc
+import pandas as pd
 
 # Define your DSN name
 dsn_name = 'AdherenceTracker'  # Replace this with your actual DSN name
