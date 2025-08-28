@@ -20,6 +20,7 @@ Includes dashboards for **associates** and **managers**, plus **Excel-based repo
 ---
 
 ## 📂 Project Structure
+```vbnet
 Adherence-Tracker/
 │── app.py # Main Flask application
 │── templates/ # HTML templates
@@ -30,3 +31,4 @@ Adherence-Tracker/
 │── static/ # Static assets (CSS, JS, images)
 │── requirements.txt # Python dependencies
 │── README.md # Project documentation
+```
