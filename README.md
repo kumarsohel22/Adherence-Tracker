@@ -20,3 +20,13 @@ Includes dashboards for **associates** and **managers**, plus **Excel-based repo
 ---
 
 ## 📂 Project Structure
+Adherence-Tracker/
+│── app.py # Main Flask application
+│── templates/ # HTML templates
+│ ├── register.html # Registration page
+│ ├── login.html # Login page
+│ ├── associate.html # Associate dashboard
+│ ├── manager.html # Manager dashboard
+│── static/ # Static assets (CSS, JS, images)
+│── requirements.txt # Python dependencies
+│── README.md # Project documentation
