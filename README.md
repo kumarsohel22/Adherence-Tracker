@@ -32,3 +32,21 @@ Adherence-Tracker/
 │── requirements.txt # Python dependencies
 │── README.md # Project documentation
 ```
+## The Excel report includes:
+
+- Login/Logout times  
+- Total time logged in  
+- Task/Break/Session durations  
+- Occupancy %  
+- Utilization %  
+- Break %  
+
+Formatted using **Pandas + XlsxWriter**.
+
+##  Tech Stack
+
+- **Backend:** Flask, Flask-SocketIO  
+- **Database:** SQL Server (via pyodbc)  
+- **Frontend:** HTML, CSS, JavaScript  
+- **Reports:** Pandas, XlsxWriter  
+
